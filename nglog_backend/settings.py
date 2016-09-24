@@ -17,6 +17,10 @@ import os
 import secret
 from mongoengine import connect
 
+SECRET_KEY = secret.SECRET_KEY
+MDB_NAME = secret.MDB_NAME
+MDB_USER = secret.MDB_USER
+MDB_PASS = secret.MDB_PASS
 
 # TODO: change for prod
 DEBUG = True
@@ -37,7 +41,9 @@ PREREQ_APPS = [
 
 ]
 # add nglog backend apps here
-PROJECT_APPS = []
+PROJECT_APPS = [
+    'engine',
+]
 INSTALLED_APPS = DJANGO_BASE_APPS + PREREQ_APPS + PROJECT_APPS
 
 
