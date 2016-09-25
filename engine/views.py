@@ -2,15 +2,11 @@ from django.http import JsonResponse
 import models
 import json
 
+# request.user <- contrib.auth.User
+# request.auth <- token
 
-'''
-request.user <- contrib.auth.User
-request.auth <- token
-'''
-
-
+# get() exceptions: [modelClass].DoesNotExist, MultipleObjectsReturned
 def unit_index(request):
-    """json get request, with SID: sid"""
     if request.method == 'GET':
         try:
             body = json.load(request.body.decode('utf-8'))
@@ -21,7 +17,7 @@ def unit_index(request):
             response = JsonResponse({'name': unit_name, 'contacts': contacts})
             return response
         except Exception:
-            return error
+            return
 
 
 
