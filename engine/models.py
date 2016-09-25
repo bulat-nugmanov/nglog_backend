@@ -1,9 +1,12 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from django.conf import settings
 
 # http://docs.mongoengine.org/guide/defining-documents.html#dealing-with-deletion-of-referred-documents
-
 ADDRESS_LEN = 100
 NAME_LEN = 25
 COMMENT_LEN = 200
@@ -12,17 +15,12 @@ COMMENT_LEN = 200
 class Site(models.Model):
     name = models.CharField(max_length=25, unique=True, blank=False)
     address = models.CharField(max_length=ADDRESS_LEN)
-    # TODO loc = GeoPointField()
 
 
 class Unit(models.Model):
     serial = models.CharField(max_length=25, unique=True, blank=False)
     name = models.CharField(max_length=NAME_LEN)
     site = models.ForeignKey(Site)
-    # TODO schematics (optional)
-    # TODO photos (optional)
-    # TODO add indexing and QuerySet ordering for efficiency:
-    # meta = {}
 
 
 class Log(models.Model):
@@ -34,8 +32,8 @@ class Log(models.Model):
 
 class Comment(models.Model):
     text = models.CharField(max_length=COMMENT_LEN)
-    log = models.ForeignKey(Log)
-    user = models.ForeignKey(User)
+    log = models.ForeignKey(Log, blank=False)
+    user = models.ForeignKey(User, blank=False)
 
 
 class Contact(models.Model):
@@ -45,3 +43,9 @@ class Contact(models.Model):
     number = models.CharField(max_length=15, blank=False)
     email = models.EmailField()
     unit = models.ForeignKey(Unit)
+
+# triggered whenever a new user is created and saved to db
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
