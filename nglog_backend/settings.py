@@ -15,22 +15,18 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 # TODO: user name and password
 import os
 import secret
-from mongoengine import connect
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = secret.SECRET_KEY
-MDB_NAME = secret.MDB_NAME
-MDB_USER = secret.MDB_USER
-MDB_PASS = secret.MDB_PASS
-ADB_NAME = secret.ADB_NAME
-ADB_USER = secret.MDB_USER
-ADB_PASS = secret.MDB_PASS
+DB_NAME = secret.DB_NAME
+DB_USER = secret.DB_USER
+DB_PASS = secret.DB_PASS
 
 # TODO: change for prod
-DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # base django apps
@@ -44,7 +40,8 @@ DJANGO_BASE_APPS = [
 ]
 # add third party apps here
 PREREQ_APPS = [
-
+    'rest_framework',
+    'djoser',
 ]
 # add nglog backend apps here
 PROJECT_APPS = [
@@ -53,6 +50,11 @@ PROJECT_APPS = [
 ]
 INSTALLED_APPS = DJANGO_BASE_APPS + PREREQ_APPS + PROJECT_APPS
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 
 # add base middleware here
 BASE_MIDDLEWARE = [
@@ -92,16 +94,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'nglog_backend.wsgi.application'
 
 
-# TODO: set up session database
-# MongoDB connection
-connect(secret.MDB_NAME, username=secret.MDB_USER, password=secret.MDB_PASS)
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.dummy'
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASS,
+        'HOST': '',
+        'PORT': '',
     },
 }
-
 
 # AUTHENTICATION_BACKENDS = ('mongoengine.django.auth.MongoEngineBackend',)
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

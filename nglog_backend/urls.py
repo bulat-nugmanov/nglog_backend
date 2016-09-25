@@ -20,5 +20,5 @@ urlpatterns = [
     # this means that for every url starting with "admin/",
     # django will find a corresponding view
     url(r'^admin/', admin.site.urls),
-    url(r'', include('engine.urls'))
+    url(r'^auth/', include('djoser.urls')),
 ]
