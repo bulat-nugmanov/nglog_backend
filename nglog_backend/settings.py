@@ -12,6 +12,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # base django apps
 DJANGO_BASE_APPS = [
+    'flat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,13 +39,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
 # add base middleware here
 BASE_MIDDLEWARE = [
+    # base
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,7 +56,9 @@ BASE_MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 # add third party middleware here
-PROJECT_MIDDLEWARE = []
+PROJECT_MIDDLEWARE = [
+
+]
 MIDDLEWARE = BASE_MIDDLEWARE + PROJECT_MIDDLEWARE
 
 
@@ -89,6 +92,7 @@ DATABASES = {
     },
 }
 
+# AUTHENTICATION_BACKENDS = ('mongoengine.django.auth.MongoEngineBackend',)
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,6 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 # TODO: make dynamic

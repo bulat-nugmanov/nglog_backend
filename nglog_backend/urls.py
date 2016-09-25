@@ -7,10 +7,7 @@ urlpatterns = [
     # django will find a corresponding view
     url(r'^admin/', admin.site.urls),
     url(r'^engine/', include('engine.urls')),
-
     url(r'^auth/', include('djoser.urls')),
     url(r'^auth/', include('djoser.urls.authtoken')),
-
-    # returns { 'token' : '' } in response to request containing valid json username and pass
     url(r'^api-token-auth/', views.obtain_auth_token),
 ]

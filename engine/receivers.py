@@ -1,14 +1,14 @@
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-
 
 # def create_auth_token(sender, instance=None, created=False, **kwargs):
 #   if created:
 #        Token.objects.create(user=instance)
 # receiver function for authentication purposes
 # gets called when a signal is sent by user_logged_in()
-def auth_token_callback(sender, user, request, **kwargs):
-    print "Successful login!"
-    if not Token.objects.filter(key=request.auth).exists():
-        user_token = Token.objects.create(user=user)
-        user_token.save()
-
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
