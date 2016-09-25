@@ -46,7 +46,6 @@ PREREQ_APPS = [
 # add nglog backend apps here
 PROJECT_APPS = [
     'engine',
-    'users',
 ]
 INSTALLED_APPS = DJANGO_BASE_APPS + PREREQ_APPS + PROJECT_APPS
 
