@@ -17,10 +17,16 @@ import os
 import secret
 from mongoengine import connect
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 SECRET_KEY = secret.SECRET_KEY
 MDB_NAME = secret.MDB_NAME
 MDB_USER = secret.MDB_USER
 MDB_PASS = secret.MDB_PASS
+ADB_NAME = secret.ADB_NAME
+ADB_USER = secret.MDB_USER
+ADB_PASS = secret.MDB_PASS
 
 # TODO: change for prod
 DEBUG = True
@@ -43,6 +49,7 @@ PREREQ_APPS = [
 # add nglog backend apps here
 PROJECT_APPS = [
     'engine',
+    'users',
 ]
 INSTALLED_APPS = DJANGO_BASE_APPS + PREREQ_APPS + PROJECT_APPS
 
@@ -57,10 +64,11 @@ BASE_MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 ]
-# add third party middleware heres
+# add third party middleware here
 PROJECT_MIDDLEWARE = [
-    'django.contrib.sessions.middleware.SessionMiddleware'
+
 ]
 MIDDLEWARE = BASE_MIDDLEWARE + PROJECT_MIDDLEWARE
 
@@ -85,14 +93,15 @@ WSGI_APPLICATION = 'nglog_backend.wsgi.application'
 
 
 # TODO: set up session database
-# SESSION_ENGINE = 'mongoengine.django.sessions'
-# SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
-
 # MongoDB connection
 connect(secret.MDB_NAME, username=secret.MDB_USER, password=secret.MDB_PASS)
+
 DATABASES = {
-    'default': {'ENGINE': 'django.db.backends.dummy'}
+    'default': {
+        'ENGINE': 'django.db.backends.dummy'
+    },
 }
+
 
 # AUTHENTICATION_BACKENDS = ('mongoengine.django.auth.MongoEngineBackend',)
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -111,8 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # TODO: make dynamic
 # https://docs.djangoproject.com/en/1.10/topics/i18n
