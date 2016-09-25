@@ -21,4 +21,6 @@ urlpatterns = [
     # django will find a corresponding view
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('djoser.urls')),
+    url(r'^auth/', include('djoser.urls.authtoken')),
+    url(r'^engine/', include('engine.urls')),
 ]

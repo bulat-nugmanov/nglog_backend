@@ -41,6 +41,7 @@ DJANGO_BASE_APPS = [
 # add third party apps here
 PREREQ_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
 ]
 # add nglog backend apps here
@@ -51,7 +52,7 @@ INSTALLED_APPS = DJANGO_BASE_APPS + PREREQ_APPS + PROJECT_APPS
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
