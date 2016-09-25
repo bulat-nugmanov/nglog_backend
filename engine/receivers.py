@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 # gets called when a signal is sent by user_logged_in()
 def auth_token_callback(sender, user, request, **kwargs):
     print "Successful login!"
-    if not Token.objects.filter(key=request.data["auth_token"]).exists():
-        Token.objects.create(user=user).save()
+    if not Token.objects.filter(key=request.auth).exists():
+        user_token = Token.objects.create(user=user)
+        user_token.save()
 
